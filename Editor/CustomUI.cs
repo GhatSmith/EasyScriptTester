@@ -121,7 +121,7 @@ namespace EasyScriptTester
         public static void VersionLabel(string label)
         {
             int width = Screen.width;
-            GUI.Label(new Rect(Screen.width  - width - 2, Screen.height - 72, width, 50), label, VersionLabelStyle);
+            GUI.Label(new Rect(Screen.width - width - 2, Screen.height - 72, width, 50), label, VersionLabelStyle);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace EasyScriptTester
         /// </summary>
         public static void DoLayoutReorderableList(ReorderableList reorderableList)
         {
-            GUILayout.Space(2f);    
+            GUILayout.Space(2f);
             var rect = GUILayoutUtility.GetRect(16f, 22f);
             rect.x += 28f;
             rect.width -= 40f;
@@ -410,7 +410,7 @@ namespace EasyScriptTester
             EditorGUI.indentLevel--;
             return v;
         }
-        
+
         /// <summary>
         /// Vector2の入力フィールド (Rect指定)
         /// </summary>
@@ -420,7 +420,7 @@ namespace EasyScriptTester
 
             fieldRect.x += 20f;
             fieldRect.width /= 2f;
-            
+
             Rect xLabelRect = fieldRect;
             Rect yLabelRect = fieldRect;
             // Rect zLabelRect = fieldRect;
@@ -441,7 +441,7 @@ namespace EasyScriptTester
             xLabelRect.x = xFieldRect.x - labelSpace;
             yLabelRect.x = yFieldRect.x - labelSpace;
             // zLabelRect.x = zFieldRect.x - labelSpace;
-            
+
             v.x = EditorGUI.FloatField(xFieldRect, v.x);
             v.y = EditorGUI.FloatField(yFieldRect, v.y);
             // v.z = EditorGUI.FloatField(zFieldRect, v.z);
@@ -475,7 +475,7 @@ namespace EasyScriptTester
 
             fieldRect.x += 20f;
             fieldRect.width /= 3f;
-            
+
             Rect xLabelRect = fieldRect;
             Rect yLabelRect = fieldRect;
             Rect zLabelRect = fieldRect;
@@ -496,7 +496,7 @@ namespace EasyScriptTester
             xLabelRect.x = xFieldRect.x - labelSpace;
             yLabelRect.x = yFieldRect.x - labelSpace;
             zLabelRect.x = zFieldRect.x - labelSpace;
-            
+
             v.x = EditorGUI.FloatField(xFieldRect, v.x);
             v.y = EditorGUI.FloatField(yFieldRect, v.y);
             v.z = EditorGUI.FloatField(zFieldRect, v.z);
@@ -521,7 +521,7 @@ namespace EasyScriptTester
             EditorGUI.indentLevel--;
             return v;
         }
-        
+
         /// <summary>
         /// Vector3の入力フィールド (Rect指定)
         /// </summary>
@@ -548,7 +548,7 @@ namespace EasyScriptTester
                 fieldRects[i].width -= space;
                 labelRects[i].x = fieldRects[i].x - labelSpace;
             }
-            
+
             v.x = EditorGUI.FloatField(fieldRects[0], v.x);
             v.y = EditorGUI.FloatField(fieldRects[1], v.y);
             v.z = EditorGUI.FloatField(fieldRects[2], v.z);
@@ -637,7 +637,7 @@ namespace EasyScriptTester
         /// バージョン情報ラベルのGUIStyleを作成する
         /// </summary>
         /// <returns></returns>
-        
+
         private static GUIStyle CreateVersionLabelStyle()
         {
             var style = new GUIStyle(GUI.skin.GetStyle("Label"));

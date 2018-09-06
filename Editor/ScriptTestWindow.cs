@@ -23,7 +23,7 @@ namespace EasyScriptTester
         /// <summary>
         /// メソッド実行ボタンの大きさ
         /// </summary>
-        private const float MethodCallButtonWidth = 32f;
+        private const float MethodCallButtonWidth = 64;
 
         /// <summary>
         /// メソッド実行ボタンの大きさ
@@ -79,11 +79,11 @@ namespace EasyScriptTester
         /// <summary>
         /// ウィンドウを開く
         /// </summary>
-        [MenuItem("Tools/Easy Script Tester", false, 10000)]
+        [MenuItem("Tools/Scripting/Easy Script Tester", false)]
         private static void Open()
         {
             _needSetCallbacks = true;
-            GetWindow<ScriptTestWindow>();
+            GetWindow<ScriptTestWindow>(typeof(SceneView));
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace EasyScriptTester
         private void OnGUI()
         {
             CustomUI.VersionLabel(VersionLabel);
-            
-            EditorGUILayout.LabelField("選択しているオブジェクトのメソッド一覧が表示されます。");
+
+            EditorGUILayout.LabelField("Methods of selected object are displayed");
             EditorGUILayout.Space();
 
             if (this.componentDatas == null) { return; }
@@ -135,13 +135,13 @@ namespace EasyScriptTester
                     GUILayout.Space(3f);
                     EditorGUILayout.BeginHorizontal();
                     GUILayout.Space(IndentSize);
-                    
-                    if (GUILayout.Button("実行", GUILayout.Width(MethodCallButtonWidth), GUILayout.Height(MethodCallButtonHeight))) // メソッド実行ボタン
+
+                    if (GUILayout.Button("Test", GUILayout.Width(MethodCallButtonWidth), GUILayout.Height(MethodCallButtonHeight))) // メソッド実行ボタン
                     {
                         try
                         {
                             var parameters = method.Parameters
-                                .Select(p => 
+                                .Select(p =>
                                 {
                                     if (p.ReorderableList == null)
                                     {
@@ -151,7 +151,7 @@ namespace EasyScriptTester
                                     {
                                         var elementType = p.ParameterInfo.ParameterType.GetElementType();
                                         return (IList)TypeUtility.ToArray(p.ReorderableList.list, elementType);
-                                        
+
                                     }
                                 })
                                 .ToArray();
@@ -176,17 +176,17 @@ namespace EasyScriptTester
                             var isCoroutine = method.MethodInfo.ReturnType == typeof(IEnumerator);
                             if (!(isMonobehaviour && isCoroutine)) // コルーチンの場合はメソッド返却値を表示させない
                             {
-                                msg += "\n-> " + ConvertUtility.Convert(result, method.MethodInfo.ReturnType);
+                                msg += "\nMethod return -> " + ConvertUtility.Convert(result, method.MethodInfo.ReturnType);
                             }
                             Debug.Log(msg);
 
-                            if (EditorApplication.isPaused && objectType == ObjectType.GameObject) 
+                            if (EditorApplication.isPaused && objectType == ObjectType.GameObject)
                             {
                                 // 全てのシーンにDirtyフラグを入れる
                                 Enumerable.Range(0, EditorSceneManager.sceneCount)
                                 .Select(i => EditorSceneManager.GetSceneAt(i))
                                 .ToList()
-                                .ForEach(s =>  EditorSceneManager.MarkSceneDirty(s));
+                                .ForEach(s => EditorSceneManager.MarkSceneDirty(s));
                             }
                         }
                         catch (Exception e)
@@ -263,7 +263,7 @@ namespace EasyScriptTester
                 ((Array)obj)
                 .ToEnumerable()
                 .ToList()
-                .Select(o => 
+                .Select(o =>
                 {
                     if (o == null)
                     {
@@ -292,7 +292,7 @@ namespace EasyScriptTester
                 result += "]";
             }
             else // not array
-            { 
+            {
                 result += obj.ToString();
             }
 
@@ -334,7 +334,7 @@ namespace EasyScriptTester
 
             if (method.MethodInfo.ReturnType == typeof(IEnumerator))
             {
-                Debug.LogWarning("Monobehaviour継承スクリプトのファイルからのコルーチン実行は非対応です\nExecuting Coroutine in Monobehaviour script file is not supported");
+                Debug.LogWarning("Executing Coroutine in Monobehaviour script file is not supported");
             }
 
             return result;
@@ -360,7 +360,7 @@ namespace EasyScriptTester
                     startCoroutine.Invoke(component, new object[] { coroutine });
                 };
 
-                if (EditorApplication.isPlaying == false) { Debug.LogWarning("コルーチンはエディタ停止中には実行できません\nCoroutine can only be executed in play mode"); }
+                if (EditorApplication.isPlaying == false) { Debug.LogWarning("Coroutine can only be executed in play mode"); }
                 result = coroutine;
             }
             else
@@ -504,7 +504,8 @@ namespace EasyScriptTester
         /// </summary>
         private void Line(float size)
         {
-            GUILayout.Box("", GUILayout.Width(this.position.width), GUILayout.Height(size));
+            //GUILayout.Box("", GUILayout.Width(this.position.width), GUILayout.Height(size));
+            GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(size));
         }
 
         /// <summary>
